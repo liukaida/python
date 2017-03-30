@@ -31,6 +31,20 @@ def text_reply(msg):
     print msg
 
 
+@itchat.msg_register(TEXT, isGroupChat=True)
+def group_reply(msg):
+    print '------group_reply start-------'
+    question = msg['Text']
+    question_user_name = msg['User']['NickName']
+    question = question.encode("UTF-8")
+    answer_str = get_moli_answer(question)
+    answer = fill_answer_names(answer_str, question_user_name, u'凯')
+    itchat.send(u'%s' % answer.decode("UTF-8"), msg['FromUserName'])
+    # itchat.send(u'%s' % msg['Content'], msg['FromUserName'])
+    print '------group_reply end-------'
+    print msg
+
+
 def robot_run():
     # 登录
     itchat.auto_login(hotReload=True)
